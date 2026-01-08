@@ -8,55 +8,52 @@ El objetivo de este ejercicio es poder entender tus habilidades como programador
 
 El problema a resolver consiste en encontrar la máxima cantidad de rectángulos de dimensiones "a" y "b" (paneles solares) que caben dentro de un rectángulo de dimensiones "x" e "y" (techo).
 
-## 🚀 Cómo Empezar
+## ✅ Solución
 
-### Opción 1: Solución en TypeScript
-```bash
-cd typescript
-npm install
-npm start
+### 📐 Cálculo de áreas
+
+Primero realicé el calculo de area para los dos rectangulos
+
+```typescript
+const roofArea = roofWidth * roofHeight;
+const panelArea = panelWidth * panelHeight;
 ```
 
-### Opción 2: Solución en Python
-```bash
-cd python
-python3 main.py
+y dividi el area de "roof" por el area de "panel". Esto funciono para algunos test pero me faltaba realizar validaciones importantes ya que me hacia la division sin tener en cuenta si realmente un panel entraba en el rectangulo mas grande.
+
+### 🔍 Validación básica
+
+Entonces hice un if simple.
+
+```typescript
+if (panelWidth > roofWidth || panelHeight > roofHeight) return 0;
 ```
 
-## ✅ Casos de Prueba
+y solo con esto ya paso todos los test.
 
-Tu solución debe pasar los siguientes casos de prueba:
-- Paneles 1x2 y techo 2x4 ⇒ Caben 4
-- Paneles 1x2 y techo 3x5 ⇒ Caben 7
-- Paneles 2x2 y techo 1x10 ⇒ Caben 0
+### 🔄 Rotación
 
----
+pero aun asi no me conforme ya que hay casos en la vida real en las que no funcionaria ya que nosotros podriamos rotar un rectangulo y cabria perfectamente. Asi que agregue un test extra al ejercicio para comprobar.
 
-## 📝 Tu Solución
+```json
+{
+  "panelW": 2,
+  "panelH": 5,
+  "roofW": 6,
+  "roofH": 3,
+  "expected": 1
+}
+```
 
-Deja acá el link a tu video explicando tu solución con tus palabras
+en este caso me devuelve 0 cuando deberia devolverme 1. Esto es por que el alto del panel es mas grande que el alto del roof pero si lo rotamos cabria perfectamente. Entonces para esto deberia agregar unas validaciones extra.
 
----
+```typescript
+const fitsOriginal = panelWidth <= roofWidth && panelHeight <= roofHeight;
+const fitsRotated = panelHeight <= roofWidth && panelWidth <= roofHeight;
 
-## 💰 Bonus (Opcional)
+if (!fitsOriginal && !fitsRotated) {
+  return 0;
+}
+```
 
-Si completaste alguno de los ejercicios bonus, explica tu solución aquí:
-
-### Bonus Implementado
-*[Indica cuál bonus implementaste: Opción 1 (techo triangular) o Opción 2 (rectángulos superpuestos)]*
-
-
-
-
-### Explicación del Bonus
-*[Explica cómo adaptaste tu algoritmo para resolver el bonus]*
-
-
-
-
----
-
-## 🤔 Supuestos y Decisiones
-
-*[Si tuviste que tomar algún supuesto o decisión de diseño, explícalo aquí]*
-
+esto me serviria para saber que si no cabe en la posicion original talvez pueda caber en la otra posición.
