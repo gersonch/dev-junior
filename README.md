@@ -57,3 +57,7 @@ if (!fitsOriginal && !fitsRotated) {
 ```
 
 esto me serviria para saber que si no cabe en la posicion original talvez pueda caber en la otra posición.
+
+## Ejecución
+
+Para la ejecucion del ejercicio simplemente utilizamos en el terminal `npm start`
